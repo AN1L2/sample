@@ -243,12 +243,11 @@ local patterns = {"@","#-","@#"}
 local patternIndex = 1
 local currentDelay = 1
 
-
 local function sendAnilV2Spam()
-    local target = (targetPlayer ~= "" and targetPlayer) or "TMKX"
-    local msg = phrases[index] .. " " .. target:upper()
+    local target = (spamTarget ~= "" and spamTarget) or (targetPlayer ~= "" and targetPlayer) or "TMKX"
+    local msg = phrases[index]
     local pattern = patterns[patternIndex]
-    local finalMsg = string.rep(pattern, math.floor(170/#pattern)) .. " " .. msg
+    local finalMsg = string.rep(pattern, math.floor(170/#pattern)) .. " " .. target:upper() .. " " .. msg  -- FIXED!
     
     pcall(function()
         if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
