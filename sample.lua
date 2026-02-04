@@ -6,13 +6,9 @@ local setclipboard = setclipboard or print
 local TextChatService = game:GetService("TextChatService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-
-
--- 🔥 SCRIPT LOADED ANNOUNCER (EDIT MESSAGE HERE)
-local ANNOUNCER_MSG = "🚀ANIL,RUDY,SAI,AYU PAPA KO NAMASTE 🔥"  -- ← EDIT THIS!
-
--- Send announcement when script loads
-task.wait(2)  -- Wait for player fully loaded
+-- 🔥 SCRIPT LOADED ANNOUNCER
+local ANNOUNCER_MSG = "🚀ANIL,RUDY,SAI,AYU PAPA KO NAMASTE 🔥"
+task.wait(2)
 pcall(function()
     if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
         TextChatService.TextChannels.RBXGeneral:SendAsync("🎖️ " .. ANNOUNCER_MSG)
@@ -35,58 +31,30 @@ local bypassStyles = {"0_o_ ", "Q-~ ", "Z_Z_ ", "I_I_ ", "D=D= "}
 
 local SCRIPT_PASSWORD = "ANIL@123" -- 🔐 change this to whatever you want
 
-
--- 🔥 akj200995 CHAT COMMANDS (ROBLOX CHAT /start etc)
+-- 🔥 CHAT COMMANDS (akj200995 ONLY)
 local OWNER_NAME = "akj200995"
 local protectedNames = {"ANIL", "AYU", "RUDY", "SAI", "anil", "AYN1L", "An1l", "@yu", "S1i", "akj200995","Jamal","Mickey"}
-
--- SPAM CONTROL
 local spamActive = false
 local spamTarget = ""
-local spamCoroutine = nil
 
--- CHAT COMMAND LISTENER (akj200995 ONLY)
 Players.LocalPlayer.Chatted:Connect(function(message)
     if Players.LocalPlayer.Name ~= OWNER_NAME then return end
-    
     local cmd = message:lower():split(" ")[1]
     local args = message:split(" ")[2]
     
-    -- /start (h8er name)
     if cmd == "/start" and args then
         for _, name in pairs(protectedNames) do
             if string.lower(args):find(string.lower(name)) then
-                StatusLabel.Text = "🚫 PROTECTED: " .. name:upper()
-                StatusLabel.BackgroundColor3 = Color3.fromRGB(255, 100, 100)
-                task.wait(1)
-                StatusLabel.Text = "STATUS: OFF"
+                print("🚫 PROTECTED: " .. name)
                 return
             end
         end
-        
         spamTarget = args
         spamActive = true
-        StatusLabel.Text = "🔥 SPAMMING: " .. args:upper()
-        StatusLabel.BackgroundColor3 = Color3.fromRGB(40, 190, 80)
-        
-    -- /stop
+        print("🔥 SPAMMING: " .. args)
     elseif cmd == "/stop" then
         spamActive = false
-        StatusLabel.Text = "🛑 SPAM STOPPED"
-        StatusLabel.BackgroundColor3 = Color3.fromRGB(100, 50, 50)
-        task.wait(1)
-        StatusLabel.Text = "STATUS: OFF"
-        
-    -- /reset
-    elseif cmd == "/reset" then
-        spamActive = false
-        TargetBox.Text = ""
-        currentDelay = 1
-        updateDelayUI()
-        StatusLabel.Text = "🔄 RESET DONE"
-        StatusLabel.BackgroundColor3 = Color3.fromRGB(100, 255, 100)
-        task.wait(1)
-        StatusLabel.Text = "STATUS: OFF"
+        print("🛑 STOPPED")
     end
 end)
 
@@ -270,15 +238,15 @@ Instance.new("UICorner", MinusBtn)
 
 
 -- ANIL V2 PATTERNS (NO EMOJIS = MAX SPEED)
-local phrases = {"🫣Tmkx SUN🫣","🤣Tmkx sutur murg🤣","🥰Tmkx Taj Mahal🥰","🏖️Tmkx AUSTRALIA🏖️","🏘️Tmkx 8 wonder🏘️","🩸Tmkx Wave🩸","🕷️TMKC SPIDER 456🕷️","👽Tmkx IRONMAN👽","⚡️ANIL PAPA BOL⚡️"}
+local phrases = {"Tmkx lola","Tmkx sutur murg","Tmkx telephone","Tmkx hijraa","Tmkx ghanta","Tmkx bhangi","Tmkx chakka","Tmkx ethiopia","ANIL PAPA BOL"}
 local patterns = {"@","#-","@#"}
 local patternIndex = 1
 local currentDelay = 1
 
 
 local function sendAnilV2Spam()
-    local target = (spamTarget ~= "" and spamTarget) or (targetPlayer ~= "" and targetPlayer) or "TMKX"
-   local msg = target:upper() .. " " .. phrases[index]
+    local target = (targetPlayer ~= "" and targetPlayer) or "TMKX"
+    local msg = phrases[index] .. " " .. target:upper()
     local pattern = patterns[patternIndex]
     local finalMsg = string.rep(pattern, math.floor(170/#pattern)) .. " " .. msg
     
@@ -315,52 +283,37 @@ MinusBtn.MouseButton1Click:Connect(function()
 end)
 
 
--- 🔥 ULTIMATE SPAM LOOP (CHAT + UI CONTROLLED)
+-- ⚡ ULTRA FAST SPAM LOOP (YOUR ORIGINAL SPEED!)
 task.spawn(function()
     while true do
-        if spamActive or active then
+        if active or spamActive then
             local target = spamTarget ~= "" and spamTarget or targetPlayer
             if target ~= "" then
-                pcall(sendAnilV2Spam)  -- Uses your existing spam function
+                pcall(sendAnilV2Spam)
             end
-            task.wait(waitTime)
         end
-        task.wait(0.01)
+        task.wait(waitTime)  -- YOUR ORIGINAL 1.4s SPEED!
     end
 end)
 
-
 -- BUTTON CONTROLS
 StartBtn.MouseButton1Click:Connect(function()
-    -- PROTECTED NAMES CHECK
-    local input = TargetBox.Text
-    for _, name in pairs(protectedNames) do
-        if string.lower(input):find(string.lower(name)) then
-            StatusLabel.Text = "🚫 PROTECTED: " .. name:upper()
-            StatusLabel.BackgroundColor3 = Color3.fromRGB(255, 100, 100)
-            task.wait(2)
-            StatusLabel.Text = "STATUS: OFF"
-            return
-        end
-    end
-    
-    targetPlayer = input
+    targetPlayer = TargetBox.Text
     active = true
     StartBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
     StartBtn.Text = "RUNNING"
     StatusLabel.BackgroundColor3 = Color3.fromRGB(40, 190, 80)
-    StatusLabel.Text = "SPAMMING: " .. input:upper()
+    StatusLabel.Text = "STATUS: ACTIVE"
 end)
 
+
 StopBtn.MouseButton1Click:Connect(function()
-    active = false          -- UI stop
-    spamActive = false      -- CHAT stop (NEW!)
+    active = false
     StartBtn.BackgroundColor3 = Color3.fromRGB(40, 190, 80)
     StartBtn.Text = "START"
     StatusLabel.BackgroundColor3 = Color3.fromRGB(100, 50, 50)
     StatusLabel.Text = "STATUS: OFF"
 end)
-
 
 
 TargetBox:GetPropertyChangedSignal("Text"):Connect(function()
